@@ -272,14 +272,17 @@ class CBLOF(BaseDetector):
         for i in range(1, self.n_clusters_):
             temp_sum = np.sum(size_clusters[sorted_cluster_indices[:i]])
             if temp_sum >= n_samples * self.alpha:
+                print('alpha appeding {}'.format(i))
                 alpha_list.append(i)
 
             if size_clusters[sorted_cluster_indices[i - 1]] / size_clusters[
                 sorted_cluster_indices[i]] >= self.beta:
+                print('beta appeding {}'.format(i))
                 beta_list.append(i)
 
             # Find the separation index fulfills both alpha and beta
         intersection = np.intersect1d(alpha_list, beta_list)
+        print('intersection',intersection)
 
         if len(intersection) > 0:
             self._clustering_threshold = intersection[0]
@@ -290,7 +293,7 @@ class CBLOF(BaseDetector):
         else:
             raise ValueError("Could not form valid cluster separation. Please "
                              "change n_clusters or change clustering method")
-
+        print('threshold',self._clustering_threshold)
         self.small_cluster_labels_ = sorted_cluster_indices[
                                      self._clustering_threshold:]
         self.large_cluster_labels_ = sorted_cluster_indices[
