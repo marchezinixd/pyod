@@ -281,7 +281,6 @@ class CBLOF(BaseDetector):
 
             # Find the separation index fulfills both alpha and beta
         intersection = np.intersect1d(alpha_list, beta_list)
-        print('intersection',intersection)
 
         if len(intersection) > 0:
             self._clustering_threshold = intersection[0]
@@ -297,8 +296,6 @@ class CBLOF(BaseDetector):
                                      self._clustering_threshold:]
         self.large_cluster_labels_ = sorted_cluster_indices[
                                      0:self._clustering_threshold]
-        print('small',self.small_cluster_labels_)
-        print('big',self.large_cluster_labels_)
 
         # No need to calculate small cluster center
         # self.small_cluster_centers_ = self.cluster_centers_[
@@ -307,7 +304,7 @@ class CBLOF(BaseDetector):
         self._large_cluster_centers = self.cluster_centers_[
             self.large_cluster_labels_]
         
-        print('big centers',self._large_cluster_centers)
+        
     def _decision_function(self, X, labels):
         # Initialize the score array
         scores = np.zeros([X.shape[0], ])
