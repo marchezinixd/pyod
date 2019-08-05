@@ -272,12 +272,11 @@ class CBLOF(BaseDetector):
         for i in range(1, self.n_clusters_):
             temp_sum = np.sum(size_clusters[sorted_cluster_indices[:i]])
             if temp_sum >= n_samples * self.alpha:
-                print('alpha appeding {}'.format(i))
                 alpha_list.append(i)
 
             if size_clusters[sorted_cluster_indices[i - 1]] / size_clusters[
                 sorted_cluster_indices[i]] >= self.beta:
-                print('beta appeding {}'.format(i))
+         
                 beta_list.append(i)
 
             # Find the separation index fulfills both alpha and beta
@@ -298,6 +297,8 @@ class CBLOF(BaseDetector):
                                      self._clustering_threshold:]
         self.large_cluster_labels_ = sorted_cluster_indices[
                                      0:self._clustering_threshold]
+        print('small',self.small_cluster_labels_)
+        print('big',self.large_cluster_labels_)
 
         # No need to calculate small cluster center
         # self.small_cluster_centers_ = self.cluster_centers_[
@@ -305,7 +306,8 @@ class CBLOF(BaseDetector):
 
         self._large_cluster_centers = self.cluster_centers_[
             self.large_cluster_labels_]
-
+        
+        print('big centers',self._large_cluster_centers)
     def _decision_function(self, X, labels):
         # Initialize the score array
         scores = np.zeros([X.shape[0], ])
